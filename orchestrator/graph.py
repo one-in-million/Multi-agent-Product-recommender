@@ -38,7 +38,7 @@ async def router_node(state: AgentState):
     router = OrchestratorRouter()
     last_message = state["messages"][-1]["content"]
     
-    # We can reuse your exact intent logic!
+    # Let the LLM guess the intent naturally
     intent = await router.classify_intent(last_message)
     
     return {"current_intent": intent}
@@ -53,7 +53,7 @@ def ingest_node(state: AgentState):
     
     status = result.get("status")
     if status == "duplicate":
-        msg = "ℹ️ This video has already been ingested. You can ask questions about it!"
+        msg = " This video has already been ingested. You can ask questions about it!"
     elif status == "success":
         products = result.get("products", [])
         product_list = "\n".join([f"  • **{p.get('name', 'Unknown')}** by {p.get('brand', 'Unknown')}" for p in products])

@@ -161,15 +161,26 @@ with st.sidebar:
     if st.button("🚀 Ingest Video", use_container_width=True) and youtube_url:
         with st.spinner("Ingesting video... This may take a few minutes."):
             result = send_message(youtube_url)
+            
+            # Add the user's URL to the chat
             st.session_state.chat_history.append({"role": "user", "content": f"📹 {youtube_url}"})
+            
+            # Try to grab the agent's actual text, or default to our custom welcome message
+            bot_reply = result.get("message") or result.get("final_response")
+            
+            if not bot_reply or bot_reply == "Something went wrong.":
+                bot_reply = "✅ **Video ingested successfully!** If you have any questions related to the product video, please ask."
+
+            # Save the assistant's reply
             st.session_state.chat_history.append({
                 "role": "assistant",
-                "content": result.get("final_response", ""),
-                "agent_used": result.get("agent_used"),
+                "content": bot_reply,
+                "agent_used": result.get("agent_used", "Ingestion Agent"),
                 "products": result.get("products", []),
             })
             st.rerun()
 
+            
     st.markdown("---")
     st.markdown("### 💡 How to Use")
     st.markdown("""

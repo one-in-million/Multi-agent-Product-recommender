@@ -15,22 +15,21 @@ from config import AGENT_URLS, OLLAMA_BASE_URL, LLM_MODEL, LLM_TEMPERATURE
 
 logger = logging.getLogger(__name__)
 
-INTENT_CLASSIFICATION_PROMPT = """You are a request router for a multi-agent system. Classify the user's message into one of these intents:
+INTENT_CLASSIFICATION_PROMPT = """You are a strict request router for a multi-agent system. Classify the user's message into one of these intents based strictly on the rules below.
 
-AVAILABLE AGENTS AND THEIR CAPABILITIES:
+AVAILABLE AGENTS:
 {agent_descriptions}
 
 USER MESSAGE: {message}
-
 CONTEXT: {context}
 
 Classify this message into exactly ONE of these intents:
-- "ingest_video": User wants to process/ingest a YouTube video (contains a YouTube URL or asks to analyze a video)
-- "chat_about_video": User asks a question about video content, products discussed, or wants information from ingested videos
-- "search_products": User wants to find/buy similar products, compare prices, or get product recommendations
-- "general": General greeting, help request, or unrelated query
+- "ingest_video": ONLY use this if the user provides an actual YouTube link starting with "http://" or "https://". Do NOT use this if they ask for a summary.
+- "chat_about_video": Use this if the user asks for a summary, asks a question about the video, or asks to analyze "it" (e.g., "Summarize the content of it", "What are the key points?").
+- "search_products": Use this if the user wants to search for products online, compare prices, or check Amazon/Flipkart.
+- "general": ONLY use this for basic greetings (e.g., "hi", "hello"). Do NOT use this for summaries or product questions.
 
-Respond with ONLY the intent string, nothing else.
+Respond with ONLY the exact intent string, nothing else.
 
 INTENT:"""
 
