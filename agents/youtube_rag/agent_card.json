@@ -1,0 +1,44 @@
+{
+  "name": "YouTube RAG Agent",
+  "description": "Extracts transcripts from YouTube videos (subtitles or audio), stores embeddings in PGVector, and supports conversational Q&A over video content using RAG.",
+  "url": "http://localhost:8001",
+  "capabilities": [
+    "ingest_video",
+    "chat_about_video"
+  ],
+  "input_schema": {
+    "ingest_video": {
+      "type": "object",
+      "properties": {
+        "youtube_url": {"type": "string", "description": "YouTube video URL to ingest"}
+      },
+      "required": ["youtube_url"]
+    },
+    "chat_about_video": {
+      "type": "object",
+      "properties": {
+        "query": {"type": "string", "description": "User question about video content"},
+        "chat_history": {"type": "array", "description": "Previous chat messages"}
+      },
+      "required": ["query"]
+    }
+  },
+  "output_schema": {
+    "ingest_video": {
+      "type": "object",
+      "properties": {
+        "video_title": {"type": "string"},
+        "products_found": {"type": "integer"},
+        "transcript_chunks": {"type": "integer"},
+        "products": {"type": "array"}
+      }
+    },
+    "chat_about_video": {
+      "type": "object",
+      "properties": {
+        "answer": {"type": "string"},
+        "sources": {"type": "array"}
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+    "name": "Product Search MCP Agent",
+    "description": "Collects product requirements from the user and searches across e-commerce platforms (Amazon, Flipkart, Myntra, Ajio, Meesho, Lenskart) using MCP-compliant API calls. Returns structured product recommendations with price comparisons.",
+    "url": "http://localhost:8002",
+    "capabilities": [
+        "search_products",
+        "compare_prices"
+    ],
+    "input_schema": {
+        "search_products": {
+            "type": "object",
+            "properties": {
+                "product_query": {
+                    "type": "string",
+                    "description": "Product name or description to search for"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Product category (optional)"
+                },
+                "brand": {
+                    "type": "string",
+                    "description": "Preferred brand (optional)"
+                },
+                "budget": {
+                    "type": "string",
+                    "description": "Budget range (optional)"
+                },
+                "platforms": {
+                    "type": "array",
+                    "description": "Specific platforms to search (optional)"
+                }
+            },
+            "required": [
+                "product_query"
+            ]
+        },
+        "compare_prices": {
+            "type": "object",
+            "properties": {
+                "product_query": {
+                    "type": "string",
+                    "description": "Product to compare prices for"
+                },
+                "context": {
+                    "type": "string",
+                    "description": "Additional context from video transcript"
+                }
+            },
+            "required": [
+                "product_query"
+            ]
+        }
+    },
+    "output_schema": {
+        "search_products": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "transaction_id": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "results": {
+                            "type": "object"
+                        },
+                        "summary": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

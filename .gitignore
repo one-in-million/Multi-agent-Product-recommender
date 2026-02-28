@@ -1,0 +1,15 @@
+# Python environment
+env/
+venv/
+__pycache__/
+*.pyc
+
+# Local Databases
+chroma_db/
+*.sqlite3
+
+# OS Files
+.DS_Store
+
+# API Keys / Secrets
+.env
